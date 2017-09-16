@@ -1,11 +1,16 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
-namespace RsaCryptography
+
+namespace Console48
 {
-    static class Program
+    class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
             //CSP with a new 2048 bit rsa key pair
             var csp = new RSACryptoServiceProvider(2048);
@@ -27,17 +32,13 @@ namespace RsaCryptography
             csp = new RSACryptoServiceProvider();
             csp.ImportParameters(pubKey);
             System.Console.WriteLine("Insira a mensagem a ser criptografada:\n ");
-            // Original code var plainTextData = "foobar";
             var plainTextData = System.Console.ReadLine();
             var bytesPlainTextData = System.Text.Encoding.Unicode.GetBytes(plainTextData);
             var bytesCypherText = csp.Encrypt(bytesPlainTextData, false);
             var cypherText = Convert.ToBase64String(bytesCypherText);
             bytesCypherText = Convert.FromBase64String(cypherText);
-
-            //string path = @"C:\Users\endrunne\Desktop";
-            //string[] createText = { cypherText };
-
-            string desktop = @"C:\Users\endrunne\Desktop\cypher.pem";
+            string[] createText = { cypherText };
+            string desktop = @"C:\Users\endrunne\Desktop\cypher.pfx";
             using (System.IO.StreamWriter sw = File.CreateText(desktop))
             {
                 Console.WriteLine("| status: Exportando |");
@@ -45,28 +46,11 @@ namespace RsaCryptography
                 {
                     sw.WriteLine(cypherText);
                 }
-               // catch(Exception ex)
-                //{
-                //    Console.WriteLine(ex.ToString());
-              //  }
                 finally
                 {
                     Console.WriteLine("| status: |");
                 }
             }
-            // decrypt proccess
-            using (var reader = File.OpenText(@"C:\Users\endrunne\Desktop\cypher.pem"));
-            {
-                var x = new PemReader(reader);
-                var y = (RsaKeyParameters)x.ReadObject();
-                thingee = (RSACryptoServiceProvider)RSACryptoServiceProvider.Create();
-                var pa = new RSAParameters();
-                pa.Modulus = y.Modulus.ToByteArray();
-                pa.Exponent = y.Exponent.ToByteArray();
-                thingee.ImportParameters(pa);
-            }
-
-
             System.Console.WriteLine("\nMensagem criptografada:\n\n");
             System.Console.WriteLine(cypherText);
             System.Console.ReadLine();
@@ -75,17 +59,24 @@ namespace RsaCryptography
             bytesPlainTextData = csp.Decrypt(bytesCypherText, false);
             plainTextData = System.Text.Encoding.Unicode.GetString(bytesPlainTextData);
             System.Console.WriteLine("Você quer descriptografar essa mensagem? (Entre com Sim ou não)\n");
-            string feed = System.Console.ReadLine();
-            if (feed == "sim")
+            string feed = System.Console.ReadLine().ToLower();
+            if (feed == "sim") 
             {
-                System.Console.WriteLine("\nA palavra criptografada é:\n\n ");
-                System.Console.WriteLine(plainTextData);
-                System.Console.ReadLine();
-            }else{
-                System.Console.WriteLine("Adeus Garoto!");
-                System.Console.ReadLine();
-            } 
+                string[] readText = File.ReadAllLines(desktop);
+                foreach (string s in readText)
+                {
+                    string load = s;
+                    if (cypherText == load)
+                    {
+                        System.Console.WriteLine("\nA palavra criptografada é:\n\n ");
+                        System.Console.WriteLine(plainTextData);
+                        System.Console.ReadLine();
+                    } else {
+                        System.Console.WriteLine("Adeus Garoto!");
+                        System.Console.ReadLine();
+                    }
+                }
+            }
         }
     }
 }
-
