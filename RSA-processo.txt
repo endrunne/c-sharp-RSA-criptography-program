@@ -1,0 +1,11 @@
+Cifrando --> var bytesPlainTextData = System.Text.Encoding.Unicode.GetBytes(plainTextData);
+	     var bytesCypherText = csp.Encrypt(bytesCypherText);
+	     var cypherText = Convert.ToBase64String(bytesCypherText);
+	     bytesCypherText = Convert.FromBase64String(cypherText);
+
+descriptando --> csp = new RSACryptoServiceProvider();
+		 csp.ImportParameters(privKey);
+		 bytesPlainTextData = csp.Decrypt(bytesCypherText, false);
+		 plainTextData = System.Text.Encoding.Unicode.GetString(bytesPlainTextData);
+
+if (cypherText == bytesCypherText)
