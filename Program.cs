@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
@@ -38,13 +35,26 @@ namespace Console48
             var cypherText = Convert.ToBase64String(bytesCypherText);
             bytesCypherText = Convert.FromBase64String(cypherText);
             string[] createText = { cypherText };
-            string desktop = @"C:\Users\endrunne\Desktop\cypher.pfx";
+            string desktop = @"C:\Users\endrunne\Desktop\cypher.xml";
             using (System.IO.StreamWriter sw = File.CreateText(desktop))
             {
                 Console.WriteLine("| status: Exportando |");
                 try
                 {
                     sw.WriteLine(cypherText);
+                }
+                finally
+                {
+                    Console.WriteLine("| status: |");
+                }
+            }
+            string pub_key = @"C:\Users\endrunne\Desktop\pubkey.xml";
+            using (System.IO.StreamWriter sw = File.CreateText(pub_key))
+            {
+                Console.WriteLine("| status: Exportando |");
+                try
+                {
+                    sw.WriteLine(pubKeyString);
                 }
                 finally
                 {
@@ -58,25 +68,25 @@ namespace Console48
             csp.ImportParameters(privKey);
             bytesPlainTextData = csp.Decrypt(bytesCypherText, false);
             plainTextData = System.Text.Encoding.Unicode.GetString(bytesPlainTextData);
-            System.Console.WriteLine("Você quer descriptografar essa mensagem? (Entre com Sim ou não)\n");
-            string feed = System.Console.ReadLine().ToLower();
-            if (feed == "sim") 
+
+            string pub_load = System.IO.File.ReadAllText(@"C:\Users\endrunne\Desktop\pubkey.xml");
+            string cypher_load = System.IO.File.ReadAllText(@"C:\Users\endrunne\Desktop\cypher.xml");
+            
+            System.Console.WriteLine(pub_load);
+            System.Console.ReadLine();
+            /*
+            if (pubKeyString != pub_load)
             {
-                string[] readText = File.ReadAllLines(desktop);
-                foreach (string s in readText)
-                {
-                    string load = s;
-                    if (cypherText == load)
-                    {
-                        System.Console.WriteLine("\nA palavra criptografada é:\n\n ");
-                        System.Console.WriteLine(plainTextData);
-                        System.Console.ReadLine();
-                    } else {
-                        System.Console.WriteLine("Adeus Garoto!");
-                        System.Console.ReadLine();
-                    }
-                }
-            }
+                System.Console.WriteLine("\nA palavra criptografada é:\n\n ");
+                System.Console.WriteLine(plainTextData);
+                System.Console.ReadLine();
+            }else
+            {
+                System.Console.WriteLine("Adeus Garoto!");
+                System.Console.ReadLine();
+            }*/
         }
     }
 }
+
+
