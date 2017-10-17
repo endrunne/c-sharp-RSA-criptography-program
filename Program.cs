@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
@@ -35,7 +38,8 @@ namespace Console48
             var cypherText = Convert.ToBase64String(bytesCypherText);
             bytesCypherText = Convert.FromBase64String(cypherText);
             string[] createText = { cypherText };
-            string desktop = @"C:\Users\endrunne\Desktop\cypher.xml";
+            /*# Exportar o texto cifrado!
+            string desktop = @"C:\cypher.xml";
             using (System.IO.StreamWriter sw = File.CreateText(desktop))
             {
                 Console.WriteLine("| status: Exportando |");
@@ -48,6 +52,8 @@ namespace Console48
                     Console.WriteLine("| status: |");
                 }
             }
+            */
+            /*
             string pub_key = @"C:\Users\endrunne\Desktop\pubkey.xml";
             using (System.IO.StreamWriter sw = File.CreateText(pub_key))
             {
@@ -61,8 +67,10 @@ namespace Console48
                     Console.WriteLine("| status: |");
                 }
             }
+            */
             System.Console.WriteLine("\nMensagem criptografada:\n\n");
             System.Console.WriteLine(cypherText);
+            System.Console.WriteLine(pubKeyString);
             System.Console.ReadLine();
             csp = new RSACryptoServiceProvider();
             csp.ImportParameters(privKey);
@@ -74,7 +82,7 @@ namespace Console48
             
             System.Console.WriteLine(pub_load);
             System.Console.ReadLine();
-            /*
+
             if (pubKeyString != pub_load)
             {
                 System.Console.WriteLine("\nA palavra criptografada é:\n\n ");
@@ -84,9 +92,7 @@ namespace Console48
             {
                 System.Console.WriteLine("Adeus Garoto!");
                 System.Console.ReadLine();
-            }*/
+            }
         }
     }
 }
-
-
