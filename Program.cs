@@ -12,87 +12,57 @@ namespace Console48
     {
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("########################## Iniciando o Programa ######################");
             //CSP with a new 2048 bit rsa key pair
-            var csp = new RSACryptoServiceProvider(2048);
-            var privKey = csp.ExportParameters(true);
-            var pubKey = csp.ExportParameters(false);
-            string pubKeyString;
-            {
-                var sw = new System.IO.StringWriter();
-                var xs = new System.Xml.Serialization.XmlSerializer(typeof(RSAParameters));
-                xs.Serialize(sw, pubKey);
-                pubKeyString = sw.ToString();
-                System.Console.ReadLine();
-            }
-            {
-                var sr = new System.IO.StringReader(pubKeyString);
-                var xs = new System.Xml.Serialization.XmlSerializer(typeof(RSAParameters));
-                pubKey = (RSAParameters)xs.Deserialize(sr);
-            }
+            var csp = new RSACryptoServiceProvider(3072); // Tamanho de bits da chave, isso é o suficiente para 128 char
+            var privKey = csp.ExportParameters(true); // Chave privada 
+            var pubKey = csp.ExportParameters(false); // Chave publica
+            System.Console.WriteLine("Insira a mensagem a ser criptografada: ");
+            // Texto inserido pelo usuário;
+            var textoInserido = System.Console.ReadLine();
             csp = new RSACryptoServiceProvider();
             csp.ImportParameters(pubKey);
-            System.Console.WriteLine("Insira a mensagem a ser criptografada:\n ");
-            var plainTextData = System.Console.ReadLine();
-            var bytesPlainTextData = System.Text.Encoding.Unicode.GetBytes(plainTextData);
-            var bytesCypherText = csp.Encrypt(bytesPlainTextData, false);
-            var cypherText = Convert.ToBase64String(bytesCypherText);
-            bytesCypherText = Convert.FromBase64String(cypherText);
-            string[] createText = { cypherText };
-            /*# Exportar o texto cifrado!
-            string desktop = @"C:\cypher.xml";
+            // Get Bytes do texto inserido;
+            var bytesTextoInserido = System.Text.Encoding.Unicode.GetBytes(textoInserido);
+            // Criptografando os bytes do texto original;
+            var bytesCiframento = csp.Encrypt(bytesTextoInserido, false); // false faz com que o módulo não seja exportado
+            // Converte os bytes cifrados pra base64;
+            var textoCifrado = Convert.ToBase64String(bytesCiframento);
+            bytesCiframento = Convert.FromBase64String(textoCifrado);
+            // O código abaixo exporta o texto criptografado em um documento XML
+            /*
+            string[] createText = { textoCifrado };
+            string desktop = @"E:\cypher.xml";
             using (System.IO.StreamWriter sw = File.CreateText(desktop))
             {
                 Console.WriteLine("| status: Exportando |");
                 try
                 {
-                    sw.WriteLine(cypherText);
+                    sw.WriteLine(textoCifrado);
                 }
                 finally
                 {
                     Console.WriteLine("| status: |");
                 }
-            }
-            */
-            /*
-            string pub_key = @"C:\Users\endrunne\Desktop\pubkey.xml";
-            using (System.IO.StreamWriter sw = File.CreateText(pub_key))
-            {
-                Console.WriteLine("| status: Exportando |");
-                try
-                {
-                    sw.WriteLine(pubKeyString);
-                }
-                finally
-                {
-                    Console.WriteLine("| status: |");
-                }
-            }
-            */
-            System.Console.WriteLine("\nMensagem criptografada:\n\n");
-            System.Console.WriteLine(cypherText);
-            System.Console.WriteLine(pubKeyString);
+            }*/
+            System.Console.WriteLine("Mensagem criptografada:\n\n");
+            System.Console.WriteLine(textoCifrado);
             System.Console.ReadLine();
+            // Bloco onde vai ocorrer a descriptografia
             csp = new RSACryptoServiceProvider();
             csp.ImportParameters(privKey);
-            bytesPlainTextData = csp.Decrypt(bytesCypherText, false);
-            plainTextData = System.Text.Encoding.Unicode.GetString(bytesPlainTextData);
-
-            string pub_load = System.IO.File.ReadAllText(@"C:\Users\endrunne\Desktop\pubkey.xml");
-            string cypher_load = System.IO.File.ReadAllText(@"C:\Users\endrunne\Desktop\cypher.xml");
-            
-            System.Console.WriteLine(pub_load);
-            System.Console.ReadLine();
-
-            if (pubKeyString != pub_load)
+            bytesTextoInserido = csp.Decrypt(bytesCiframento, false);
+            var textoDecifrado = System.Text.Encoding.Unicode.GetString(bytesTextoInserido);
+            Console.WriteLine("Você deseja decifrar a Mensagem?");
+            var requisicaoD = Console.ReadLine().ToLower();
+            if (requisicaoD == "s" || requisicaoD == "sim")
             {
-                System.Console.WriteLine("\nA palavra criptografada é:\n\n ");
-                System.Console.WriteLine(plainTextData);
-                System.Console.ReadLine();
-            }else
-            {
-                System.Console.WriteLine("Adeus Garoto!");
-                System.Console.ReadLine();
+                Console.WriteLine("\nMensagem descriptografada: {0}", textoDecifrado);
+                Console.ReadLine();
             }
+            else { Environment.Exit(0); }
         }
     }
 }
+
