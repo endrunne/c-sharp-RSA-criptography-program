@@ -1,0 +1,6 @@
+Token de autentificação gerado na primeira vez	sXbVha0o1QgEZmVpb5E/EvoolTml8EB6Xtk8DWPViiG/XLnoWpyNlrXpT02O8Q6fnaa1ilD/vNxQy4AFLU/TG8knYxtlixTHG/wO2xjjbxGLhml0xHLoB2t6g/pwgd445pgCV49Vkh97m2BZO82WSCFez8LN+JlFt1zETmqC0G3A3dFV0dBR+mtXKMSp
+
+
+Token de autentificação gerado na segunda vez			6izJlq0o1QgEZmVpbxtU+KaosYjgTTErX4Aqhioa7CM5S0dX6Ymq/oJHeRxbnKaAq6Espi3yNi74zhpJAbwad3xFqWz/qsXD9BZiSuPDeCsIe4I1qSnISLC3mT/EINy51oc1pWRHz4XdCOVNwQagANEHC2wvv+4jkW4kYUnmM3thzaVaI5ZqAhHebS4s
+
+Agora se eu errar o token o console fecha
