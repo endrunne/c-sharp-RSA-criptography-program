@@ -13,9 +13,9 @@ using System.Security.Cryptography;
 		{
 			// Gera a senha (token) com base no Primeiro nome, ultimo nome e ID da guarda costeira
 			Console.Write("Primeiro nome: ");
-			var nome = Console.ReadKey();
+			var nome = Console.ReadLine();
 			Console.Write("Ultimo nome: ");
-			var ultimoNome =Console.ReadKey();
+			var ultimoNome = Console.ReadLine();
 			Console.Write("ID: ");
 			var id = Console.ReadLine();
 			var privateKey = GetPrivateKey();
