@@ -29,7 +29,6 @@ using System.Security.Cryptography;
                 Console.Write("Insira 1 para criptografar ou 2 Para descriptografar: ");
                 var cryOrDecry = Console.ReadLine().ToLower();
                 Console.WriteLine("Insira a mensagem a ser criptografada: ");
-                // Texto inserido pelo usuário;
                 var textoInserido = System.Console.ReadLine();
                 EncryptionAndDecry(textoInserido);
             }else{Environment.Exit(0);}
@@ -48,7 +47,7 @@ using System.Security.Cryptography;
             var bytesCiframento = csp.Encrypt(bytesTextoInserido, false); // false faz com que o módulo não seja exportado
             // Converte os bytes cifrados pra base64;
             var textoCifrado = Convert.ToBase64String(bytesCiframento);
-            bytesCiframento = Convert.FromBase64String(textoCifrado);
+            bytesCiframento = Convert.FromBase64String(textoCifrado)
             // O código abaixo exporta o texto criptografado em um documento XML
             string[] createText = { textoCifrado };
             string desktop = @"C:\Users\endrunne\Desktop\cypher.xml";
@@ -71,14 +70,7 @@ using System.Security.Cryptography;
                 System.IO.Stream xf = File.Open(@"C:\Users\endrunne\Desktop\cypher.xml", FileMode.Open);
                 StreamReader leitor = new StreamReader(xf);
                 string xmlToString = leitor.ReadLine();
-                System.Console.WriteLine("\nMensagem criptografada:\n");
-                System.Console.WriteLine(textoCifrado);
-                // Bloco onde vai ocorrer a descriptografia
-                csp = new RSACryptoServiceProvider();
-                csp.ImportParameters(chavePrivada);
-                bytesTextoInserido = csp.Decrypt(bytesCiframento, false);
-                var textoDecifrado = System.Text.Encoding.Unicode.GetString(bytesTextoInserido);
-                Console.Write("\n1 - Para arquivo interno ou 2 - Para arquivo externo\n");
+                Console.WriteLine("1 Para arquivo interno ou 2 para arquivo externo");
                 var opcao = Console.ReadLine();
                 // Switch com as opções
                 switch (opcao)
