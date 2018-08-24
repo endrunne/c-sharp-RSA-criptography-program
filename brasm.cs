@@ -110,8 +110,8 @@ namespace Console48
                         csp = new RSACryptoServiceProvider();
                         csp.ImportParameters(chavePrivada);
                         var xmlBytesCifrados = System.Text.Encoding.Unicode.GetBytes(xmlToString);
-                        var xmlByeee = Convert.FromBase64String(xmlToString); //deu certo
-                        var xmlBytesDecifrados = csp.Decrypt(xmlByeee, false);
+                        var xmlString_ToBase64 = Convert.FromBase64String(xmlToString); 
+                        var xmlBytesDecifrados = csp.Decrypt(xmlString_ToBase64, false);
                         var xmlDecifrado = System.Text.Encoding.Unicode.GetString(xmlBytesDecifrados);
                         Console.Write("\nMensagem descriptografada: {0}", xmlDecifrado);
                         Console.ReadLine();
